@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Math Pinkyland - Matematika Interaktif SD</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="math-bg" aria-hidden="true"></div>
+
+  <div class="stickers" aria-hidden="true">
+    <div class="sticker s1">➕</div>
+    <div class="sticker s2">➖</div>
+    <div class="sticker s3">✖️</div>
+    <div class="sticker s4">➗</div>
+    <div class="sticker s5">🔢</div>
+    <div class="sticker s6">📐</div>
+    <div class="sticker s7">📊</div>
+    <div class="sticker s8">💗</div>
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" title="Math Pinkyland">💖</div>
+      <div class="brand-text">
+        <h1>Math Pinkyland</h1>
+        <p>Belajar Matematika SD • Ceria • Interaktif • Ujian • Leaderboard • Game</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="btn ghost" id="btnHome">🏠 Beranda</button>
+      <button class="btn ghost" id="btnSound">🔊 Suara: ON</button>
+      <button class="btn ghost" id="btnThemeHint" title="Tip">✨ Tips</button>
+      <button class="btn" id="btnReset">↻ Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <h2 class="card-title">📌 Menu Utama</h2>
+        <div class="menu" id="menuMain">
+          <button class="menu-item active" data-view="home">🏡 Beranda</button>
+          <button class="menu-item" data-view="class" data-class="1">🌟 Kelas 1</button>
+          <button class="menu-item" data-view="class" data-class="2">🌈 Kelas 2</button>
+          <button class="menu-item" data-view="class" data-class="3">🧩 Kelas 3</button>
+          <button class="menu-item" data-view="class" data-class="4">🚀 Kelas 4</button>
+          <button class="menu-item" data-view="class" data-class="5">🏅 Kelas 5</button>
+          <button class="menu-item" data-view="class" data-class="6">👑 Kelas 6</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">📈 Progress Kamu</h2>
+        <div class="progress">
+          <div class="progress-row">
+            <span>🎯 Total Skor</span>
+            <strong id="totalScore">0</strong>
+          </div>
+          <div class="progress-row">
+            <span>📝 Soal Dijawab</span>
+            <strong id="answeredCount">0</strong>
+          </div>
+          <div class="progress-row">
+            <span>✅ Akurasi</span>
+            <strong id="accuracy">0%</strong>
+          </div>
+          <div class="progress-row">
+            <span>📚 Kelas Aktif</span>
+            <strong id="activeClassLabel">-</strong>
+          </div>
+          <div class="meter" title="Akurasi kamu">
+            <div class="meter-bar" id="meterBar" style="width:0%"></div>
+          </div>
+          <p class="muted small">Progress tersimpan otomatis di browser.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">⚙️ Pengaturan Latihan</h2>
+        <div class="settings">
+          <label class="label">Jumlah soal per set</label>
+          <select class="select" id="selectCount">
+            <option value="10">10 soal</option>
+            <option value="20" selected>20 soal</option>
+            <option value="30">30 soal</option>
+          </select>
+
+          <label class="label">Mode soal</label>
+          <select class="select" id="selectMode">
+            <option value="mix" selected>Campuran (PG + Isian)</option>
+            <option value="mcq">Pilihan Ganda saja</option>
+            <option value="input">Isian saja</option>
+          </select>
+
+          <button class="btn" id="btnGenerateSet">✨ Buat Set Soal Baru</button>
+          <p class="muted small">Set soal mengikuti kelas yang sedang dibuka.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">🏆 Leaderboard</h2>
+        <div id="leaderboardBox" class="lb-box"></div>
+        <div class="row-end">
+          <button class="btn ghost" id="btnClearLB">🧹 Clear</button>
+        </div>
+        <p class="muted small">Top skor tersimpan di browser kamu.</p>
+      </div>
+
+      <div class="card mascot">
+        <div class="mascot-head">🧸</div>
+        <div>
+          <h3 class="mascot-title">Pinky Tutor</h3>
+          <p class="muted small" id="mascotLine">Ayo pilih kelas dulu ya! 🌸</p>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <!-- HOME -->
+      <div class="view" id="viewHome">
+        <div class="hero card">
+          <div class="hero-top">
+            <div>
+              <h2>Halo! Siap belajar matematika? 🥳</h2>
+              <p>
+                Pilih kelas di menu kiri. Ada <b>Penjelasan</b>, <b>Latihan</b>,
+                juga <b>Mode Ujian</b> dan <b>Game Cepat 60 detik</b> 🎮
+              </p>
+              <div class="hero-badges">
+                <span class="pill">🎀 Pink Theme</span>
+                <span class="pill">🧾 Mode Ujian</span>
+                <span class="pill">🏆 Leaderboard</span>
+                <span class="pill">🎮 Game 60s</span>
+              </div>
+            </div>
+
+            <div class="hero-card">
+              <div class="hero-emoji">🌷</div>
+              <div class="hero-score">
+                <div class="mini-stat">
+                  <span>Skor</span>
+                  <strong id="homeScore">0</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Akurasi</span>
+                  <strong id="homeAcc">0%</strong>
+                </div>
+              </div>
+              <button class="btn" id="btnStartQuick">🚀 Mulai Cepat (Kelas 1)</button>
+              <p class="muted small">Langsung ke latihan 20 soal Kelas 1.</p>
+            </div>
+          </div>
+
+          <div class="hero-grid">
+            <div class="mini card">
+              <h3>🧾 Mode Ujian</h3>
+              <p>Timer berjalan, kerjakan sampai selesai, keluar nilai + grade.</p>
+            </div>
+            <div class="mini card">
+              <h3>🏆 Leaderboard</h3>
+              <p>Simpan skor terbaikmu dan lihat peringkat!</p>
+            </div>
+            <div class="mini card">
+              <h3>🎮 Game Cepat</h3>
+              <p>Tebak cepat 60 detik. Skor realtime!</p>
+            </div>
+          </div>
+
+          <div class="tip">
+            <span class="pill">Tips</span>
+            <p><b>Rumus emas:</b> Kerjakan × dan ÷ dulu, baru + dan − ✨</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLASS -->
+      <div class="view hidden" id="viewClass">
+        <div class="class-header card">
+          <div>
+            <h2 id="classTitle">Kelas X</h2>
+            <p class="muted" id="classSubtitle">Pilih Penjelasan / Latihan / Ujian / Game.</p>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Tab kelas">
+            <button class="tab active" id="tabExplain" role="tab">📘 Penjelasan</button>
+            <button class="tab" id="tabQuiz" role="tab">🧩 Latihan Soal</button>
+            <button class="tab" id="tabExam" role="tab">🧾 Mode Ujian</button>
+            <button class="tab" id="tabGame" role="tab">🎮 Game 60s</button>
+          </div>
+        </div>
+
+        <!-- Explain -->
+        <div class="panel" id="panelExplain">
+          <div class="card">
+            <div class="panel-top">
+              <h3>Daftar Materi ✨</h3>
+              <div class="panel-actions">
+                <input id="searchTopic" class="input" type="text" placeholder="Cari materi... (pecahan, volume, skala)" />
+              </div>
+            </div>
+            <div id="topicList" class="topic-list"></div>
+          </div>
+        </div>
+
+        <!-- Topic detail -->
+        <div class="panel hidden" id="panelTopic">
+          <div class="card">
+            <div class="topic-header">
+              <button class="btn ghost" id="btnBackToTopics">← Kembali</button>
+              <div>
+                <h3 id="topicTitle">Judul Materi</h3>
+                <p class="muted" id="topicMeta">Kelas X • Materi</p>
+              </div>
+              <button class="btn" id="btnGoQuiz">🧠 Latihan Soal</button>
+            </div>
+
+            <div class="topic-detail">
+              <div class="topic-section">
+                <h4>📌 Penjelasan</h4>
+                <div id="topicBody" class="prose"></div>
+              </div>
+
+              <div class="topic-section">
+                <h4>🧪 Contoh Cepat</h4>
+                <div id="topicExamples" class="prose"></div>
+              </div>
+
+              <div class="topic-section">
+                <h4>🎯 Latihan Mini</h4>
+                <div id="topicMiniQuiz" class="mini-quiz"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="panel hidden" id="panelQuiz">
+          <div class="card">
+            <div class="panel-top">
+              <h3>Latihan Soal Seru 🎉</h3>
+              <div class="panel-actions">
+                <button class="btn ghost" id="btnShuffle">🔀 Acak</button>
+                <button class="btn" id="btnNewSet">✨ Set Baru</button>
+              </div>
+            </div>
+
+            <div class="quiz-wrap">
+              <div class="quiz-meta">
+                <div class="pill">📚 Kelas <span id="quizClass">1</span></div>
+                <div class="pill">🧩 Soal <span id="qIndex">1</span>/<span id="qTotal">1</span></div>
+                <div class="pill">🏆 Skor Kelas: <span id="classScore">0</span></div>
+                <div class="pill">🔎 Jenis: <span id="qType">-</span></div>
+              </div>
+
+              <div class="question card soft" id="questionBox">
+                <h4 id="qText">Pertanyaan...</h4>
+
+                <div id="mcqArea" class="mcq-area">
+                  <div id="choices" class="choices"></div>
+                </div>
+
+                <div id="inputArea" class="input-area hidden">
+                  <label class="label">Jawaban kamu</label>
+                  <input id="answerInput" class="input" type="text" placeholder="Ketik jawaban..." />
+                  <p class="muted small">Boleh: <b>1/2</b>, <b>25%</b>, <b>0,25</b> / <b>0.25</b>.</p>
+                </div>
+
+                <div class="feedback" id="feedback" aria-live="polite"></div>
+
+                <div class="quiz-actions">
+                  <button class="btn ghost" id="btnPrev">← Sebelumnya</button>
+                  <button class="btn" id="btnCheck">Cek Jawaban ✅</button>
+                  <button class="btn ghost" id="btnNext">Berikutnya →</button>
+                </div>
+              </div>
+
+              <div class="card note">
+                <h4>⭐ Aturan Skor</h4>
+                <ul>
+                  <li>Benar: <b>+10 poin</b> ✅</li>
+                  <li>Salah: <b>0 poin</b> 🙂</li>
+                  <li>Benar bisa muncul konfeti 🎊</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXAM -->
+        <div class="panel hidden" id="panelExam">
+          <div class="card">
+            <div class="panel-top">
+              <h3>🧾 Mode Ujian</h3>
+              <div class="panel-actions">
+                <button class="btn ghost" id="btnExamRules">📌 Aturan</button>
+                <button class="btn" id="btnStartExam">▶️ Mulai Ujian</button>
+                <button class="btn ghost" id="btnEndExam" disabled>⏹️ Selesai</button>
+              </div>
+            </div>
+
+            <div class="exam-grid">
+              <div class="card soft">
+                <div class="exam-meta">
+                  <div class="pill">⏱️ Waktu: <span id="examTime">--:--</span></div>
+                  <div class="pill">🧾 Soal: <span id="examIndex">0</span>/<span id="examTotal">0</span></div>
+                  <div class="pill">🎯 Benar: <span id="examCorrect">0</span></div>
+                </div>
+
+                <h4 id="examQText">Klik "Mulai Ujian" dulu ya 🙂</h4>
+
+                <div id="examMcqArea" class="mcq-area">
+                  <div id="examChoices" class="choices"></div>
+                </div>
+
+                <div id="examInputArea" class="input-area hidden">
+                  <label class="label">Jawaban ujian</label>
+                  <input id="examAnswerInput" class="input" type="text" placeholder="Ketik jawaban..." />
+                </div>
+
+                <div class="feedback" id="examFeedback"></div>
+
+                <div class="quiz-actions">
+                  <button class="btn ghost" id="btnExamPrev" disabled>←</button>
+                  <button class="btn" id="btnExamSubmit" disabled>Jawab ✅</button>
+                  <button class="btn ghost" id="btnExamNext" disabled>→</button>
+                </div>
+              </div>
+
+              <div class="card soft">
+                <h4>🎓 Hasil Ujian</h4>
+                <div class="result-box" id="examResultBox">
+                  <p class="muted">Belum ada hasil. Selesaikan ujian untuk melihat nilai.</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <h4>🏆 Simpan ke Leaderboard</h4>
+                <label class="label">Nama</label>
+                <input id="examName" class="input" type="text" maxlength="18" placeholder="Contoh: Zailani" />
+                <button class="btn" id="btnSaveExamScore" disabled>💾 Simpan Skor</button>
+                <p class="muted small">Skor ujian tersimpan sebagai “Best Exam Score”.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAME -->
+        <div class="panel hidden" id="panelGame">
+          <div class="card">
+            <div class="panel-top">
+              <h3>🎮 Game Cepat 60 Detik</h3>
+              <div class="panel-actions">
+                <button class="btn" id="btnStartGame">▶️ Mulai Game</button>
+                <button class="btn ghost" id="btnStopGame" disabled>⏹️ Stop</button>
+              </div>
+            </div>
+
+            <div class="game-grid">
+              <div class="card soft">
+                <div class="game-meta">
+                  <div class="pill">⏱️ Sisa: <span id="gameTime">60</span>s</div>
+                  <div class="pill">⭐ Skor: <span id="gameScore">0</span></div>
+                  <div class="pill">🔥 Streak: <span id="gameStreak">0</span></div>
+                </div>
+
+                <h4 id="gameQText">Klik "Mulai Game" untuk mulai! 🎯</h4>
+
+                <div class="game-answer">
+                  <input id="gameAnswer" class="input" type="text" placeholder="Jawab cepat..." disabled />
+                  <button class="btn" id="btnGameSubmit" disabled>Jawab</button>
+                </div>
+
+                <div class="feedback" id="gameFeedback"></div>
+              </div>
+
+              <div class="card soft">
+                <h4>🏁 Hasil Game</h4>
+                <div class="result-box" id="gameResultBox">
+                  <p class="muted">Belum mulai.</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <h4>🏆 Simpan ke Leaderboard</h4>
+                <label class="label">Nama</label>
+                <input id="gameName" class="input" type="text" maxlength="18" placeholder="Contoh: Zailani" />
+                <button class="btn" id="btnSaveGameScore" disabled>💾 Simpan Skor</button>
+                <p class="muted small">Skor game tersimpan sebagai “Best Game Score”.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Tips -->
+  <div class="modal hidden" id="modalTips" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3>✨ Tips Belajar Cepat</h3>
+        <button class="btn ghost" id="btnCloseTips">✖</button>
+      </div>
+      <ul>
+        <li>Kerjakan <b>×</b> dan <b>÷</b> dulu, baru <b>+</b> dan <b>−</b>.</li>
+        <li>Soal cerita: tulis <b>diketahui</b> dan <b>ditanya</b>.</li>
+        <li>Latihan 10 soal dulu, kalau sudah lancar naik ke 20/30.</li>
+      </ul>
+      <button class="btn" id="btnOkTips">Siap! 💗</button>
+    </div>
+  </div>
+
+  <!-- Modal Exam Rules -->
+  <div class="modal hidden" id="modalExamRules" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3>📌 Aturan Mode Ujian</h3>
+        <button class="btn ghost" id="btnCloseExamRules">✖</button>
+      </div>
+      <ul>
+        <li>Waktu ujian: <b>5 menit</b> (300 detik).</li>
+        <li>Jumlah soal ujian mengikuti set (10/20/30).</li>
+        <li>Setiap soal hanya dihitung sekali.</li>
+        <li>Nilai akhir = (benar/total)×100.</li>
+      </ul>
+      <button class="btn" id="btnOkExamRules">Mengerti 💗</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Math Pinkyland • HTML • CSS • JavaScript</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
